@@ -8,7 +8,7 @@ Version: 0.1
 Author URI: http://codeitout.com
 */
 add_filter('check_password', "nobrute_checkpass");
-
+add_action('password_reset','nobrute_passreset');
 function nobrute_checkpass($check) {
     $repeated = get_option('nobrute_repeat_pass',0);
     if(10 <= $repeated) {
@@ -19,4 +19,8 @@ function nobrute_checkpass($check) {
         update_option('nobrute_repeat_pass',0);
     }
     return $check;
+}
+
+function nobrute_passreset($user, $new_pass) {
+    update_option('nobrute_repeat_pass',0);
 }
